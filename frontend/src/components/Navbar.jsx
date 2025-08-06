@@ -44,7 +44,7 @@ const Navbar = () => {
         </div>
 
         {/* Right Side */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {/* User Icon or Avatar */}
           <div className="relative">
             {currentUser ? (
@@ -56,7 +56,7 @@ const Navbar = () => {
                   <img
                     src={avatar}
                     alt="user-avatar"
-                    className="w-7 h-7 rounded-full ring-2 ring-blue-500"
+                    className="w-7 h-7 rounded-full ring-1 ring-blue-500"
                   />
                 </button>
                 {isDropdownOpen && (
@@ -96,16 +96,20 @@ const Navbar = () => {
 
           {/* Heart Icon */}
           <button className="hidden sm:flex items-center justify-center">
-            <HiOutlineHeart className="text-2xl" />
+            <HiOutlineHeart className="text-3xl text-[#fb8510]" />
           </button>
 
           {/* Cart Icon */}
           <Link
             to="/cart"
-            className="flex items-center bg-primary hover:bg-hoverPrimary py-1 px-3 rounded-md"
+            // className="flex items-center bg-primary hover:bg-hoverPrimary py-1 px-3 rounded-md"
+            className="flex items-center text-[#fb8510] rounded-md relative"
           >
-            <FiShoppingCart className="text-xl" />
-            <span className="text-md font-semibold ml-2">
+            <FiShoppingCart className="text-2xl" />
+            <span
+              // className="text-md font-semibold ml-2"
+              className="absolute bottom-4 right-1 text-sm"
+            >
               {cartItems.length || 0}
             </span>
           </Link>

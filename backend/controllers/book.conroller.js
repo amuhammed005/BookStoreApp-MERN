@@ -47,6 +47,7 @@ export const createBook = async (req, res) => {
       coverImage.name,
       fileExtension
     )}_${uuid()}${fileExtension}`;
+
     const uploadPath = path.join(__dirname, "..", "uploads", fileName);
 
     await new Promise((resolve, reject) => {
