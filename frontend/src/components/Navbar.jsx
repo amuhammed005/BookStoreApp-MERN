@@ -17,6 +17,7 @@ const navigation = [
 ];
 
 const Navbar = () => {
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const { currentUser, logout } = useAuth();

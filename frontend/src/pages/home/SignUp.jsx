@@ -14,8 +14,6 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
   } = useForm();
   // On submit Register User
   const onSubmit = async (data) => {
