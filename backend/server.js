@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://book-store-app-mern-umber.vercel.app",
+      process.env.CLIENT_URL || "https://book-store-app-mern-umber.vercel.app",
     ],
     credentials: true,
   }),
