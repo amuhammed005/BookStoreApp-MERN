@@ -1,4 +1,4 @@
-import express, { urlencoded } from "express";
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
@@ -13,28 +13,32 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+// Configure CORS first
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://book-store-app-mern-umber.vercel.app",
+    ],
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(upload());
-// Configure CORS
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://bookstoreapp-mern.onrender.com"],
-    credentials: true,
-  })
-);
 
 const port = process.env.PORT || 3000;
 
 app.use("/api/books", router);
-// app.use("/api/orders", router);
 app.use("/api/orders", orderRouter);
 app.use("/api/auth", userRouter);
 
 app.get("/", (req, res) => {
-  res.send(" Book Store Backend running ");
+  res.send("Book Store Backend running");
 });
 
 app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`);
+  console.log(`Server started on port ${port}`);
 });
