@@ -1,32 +1,48 @@
 import User from "./user.model.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
 export const userAuth = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    console.log("Admin: ", req.body);
-    const admin = await User.findOne({ username });
+    const { email, password } = req.body;
+    console.log("Login request:", req.body);
+
+    const admin = await User.findOne({ email });
+
     if (!admin) {
-      res.status(404).json({ success: false, message: "Admin not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin not found" });
     }
-    console.log(admin);
-    if (admin.password !== password) {
-      res.status(401).json({ success: false, message: "Invalid credentials" });
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials" });
     }
+
     const token = jwt.sign(
-      { id: admin._id, username: admin.username, role: admin.role },
+      { id: admin._id, email: admin.email, role: admin.role },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.EXPIRES_IN }
+      { expiresIn: process.env.EXPIRES_IN || "1d" },
     );
-    res.status(200).json({
+
+    return res.status(200).json({
+      success: true,
       message: "Authentication successful",
-      token: token,
+      token,
       user: {
-        username: admin.username,
+        email: admin.email,
         role: admin.role,
       },
     });
   } catch (error) {
     console.error("Failed to login as admin", error.message);
-    res.status(401).json("Failed to login as admin");
+    return res.status(500).json({
+      success: false,
+      message: "Failed to login as admin",
+    });
   }
 };
